@@ -1,0 +1,16 @@
+{
+  "name": "wigoview-jira-automation",
+  "version": "1.0.0",
+  "description": "Jira 티켓 → 화면정의서 + 피드백 로그 자동화 (WIGOVIEW). GitHub Actions에서 실행되어 Jira를 조회하고 정적 HTML을 생성합니다.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "generate": "node src/cli.js",
+    "demo": "node src/cli.js --demo",
+    "build:log": "node src/cli.js --demo"
+  },
+  "license": "UNLICENSED"
+}

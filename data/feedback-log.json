@@ -1,0 +1,27 @@
+{
+  "_schema": "피드백 로그 원천 데이터. rows[]는 jira.key 기준으로 upsert됩니다. 컬럼: element(요소/화면ID), type(유형), jira{key,url,epicName}, feedback(피드백 내용), lastComment{body,author,dateKR,count}(최근 댓글), requester/assignee(요청→담당), status(상태), appliedVersion(반영 버전-수동 입력). seed=true 는 템플릿 확인용 예시 데이터입니다.",
+  "rows": [
+    {
+      "element": "M-07-009",
+      "type": "버그",
+      "jira": {
+        "key": "WIGOVIEW-475",
+        "url": "https://bfly.atlassian.net/browse/WIGOVIEW-475",
+        "epicName": "[EPIC] #07_뷰어"
+      },
+      "feedback": "목차에서 기사 닫으면 목차로 복귀하지 않음",
+      "lastComment": {
+        "body": "상세보기시 상단 바 노출되도록 수정",
+        "author": "김명종",
+        "dateKR": "2026.09.03",
+        "count": 4
+      },
+      "requester": "여채령",
+      "assignee": "김명종",
+      "status": "종료",
+      "appliedVersion": "v2.1.0",
+      "seed": true,
+      "updatedAt": "2026-09-03T00:00:00.000Z"
+    }
+  ]
+}

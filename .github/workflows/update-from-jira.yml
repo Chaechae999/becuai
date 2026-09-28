@@ -1,0 +1,55 @@
+name: Jira 화면정의서 업데이트
+
+# Jira 티켓 키를 입력받아 화면정의서 + 피드백 로그를 생성/갱신하고,
+# 변경분을 브랜치에 커밋합니다. (Jira 조회는 GitHub Actions 러너에서 수행 — 사내 egress 정책 우회)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ticket:
+        description: "Jira 티켓 키 (예: WIGOVIEW-656)"
+        required: true
+        type: string
+      applied_version:
+        description: "반영 버전 (선택, 예: v2.1.0)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jira-update-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node 20 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Jira 조회 및 문서 생성
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        run: |
+          node src/cli.js "${{ inputs.ticket }}" ${{ inputs.applied_version && format('--version={0}', inputs.applied_version) || '' }}
+
+      - name: 변경분 커밋 & 푸시
+        run: |
+          git config user.name "wigoview-bot"
+          git config user.email "wigoview-bot@users.noreply.github.com"
+          git add data/ docs/
+          if git diff --cached --quiet; then
+            echo "변경 사항 없음 — 커밋 건너뜀"
+          else
+            git commit -m "chore(jira): ${{ inputs.ticket }} 화면정의서/피드백 로그 갱신"
+            git push
+          fi
