@@ -7,7 +7,7 @@ name: GitHub Pages 배포
 on:
   push:
     branches:
-      - claude/slack-session-uimf0m
+      - claude/slack-session-y3ugkz
     paths:
       - "docs/**"
   workflow_dispatch:
